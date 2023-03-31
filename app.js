@@ -1,13 +1,33 @@
+const fs = require('fs');
+
 const profileDataArgs = process.argv.slice(2, process.argv.length);
 
-const printProfileData = profileDataArr => {
-//   for(let i = 0; i < profileDataArr.length; i++) {
-//     console.log(profileDataArr[i]);
-//   };
-  profileDataArr.forEach(item => console.log(item));
+const [name, github, profession] = profileDataArgs;
+
+
+const generatePage = (name, github, profession) => {
+  return `
+  <!DOCTYPE html>
+  <html lang="eng">
+    <head> 
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta http-equiv="X-UA-Compatible" content="ie=edge">
+      <title>Automat Portfolio</title>
+    </head>
+    <body>
+      <h1>${name}</h1>
+      <h2>${profession}</h2>
+      <h2><a href="https://github.com/${github}">Github</a></h2>
+    </body>
+  </html>
+  `;
 };
 
+fs.writeFile('index.html', generatePage(name, github, profession), err => {
+  if (err) throw err;
 
-printProfileData(profileDataArgs);
+  console.log('Portfolio completed. Checkout index.html')
+});
 
-
+// node app 'Adrian' 'isaiasqb' 'Web Developer'
