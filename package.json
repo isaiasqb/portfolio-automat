@@ -1,0 +1,22 @@
+{
+  "name": "portfolio-automat",
+  "version": "1.0.0",
+  "description": "A Node.js project. Generate a portfolio by responding the terminal prompts.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/isaiasqb/portfolio-automat.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/isaiasqb/portfolio-automat/issues"
+  },
+  "homepage": "https://github.com/isaiasqb/portfolio-automat#readme",
+  "dependencies": {
+    "inquirer": "^9.1.5"
+  }
+}
