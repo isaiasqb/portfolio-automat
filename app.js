@@ -18,22 +18,59 @@ const promptUserQuestions = () => {
     {
       type: 'input',
       name: 'name',
-      message: 'What is your name?'
+      message: 'What is your name? (Required)',
+      validate: nameInput => {
+        if(nameInput) {
+          return true;
+        } else {
+          console.log ('This answer is required');
+          return false;
+        }
+      }
     },
     {
       type: 'input',
       name: 'profession',
-      message: 'What is your current job title?'
+      message: 'What is your current job title? (Required)',
+      validate: professionInput => {
+        if(professionInput) {
+          return true;
+        } else {
+          console.log ('This answer is required');
+          return false;
+        }
+      }
     },
     {
       type: 'input',
       name: 'github',
-      message: 'Enter your GitHub username:'
+      message: 'Enter your GitHub username: (Required)',
+      validate: githubInput => {
+        if (githubInput) {
+          return true;
+        } else {
+          console.log('This answer is required');
+          return false;
+        }
+      }
+    },
+    {
+      type: 'confirm',
+      name: 'confirmAbout',
+      message: 'Would you like to include an "About" section with some information from you?',
+      default: true
     },
     {
       type: 'input',
       name: 'about',
-      message: 'Provide some information about yourself:'
+      message: 'Provide some information about yourself:',
+      when: ({ confirmAbout }) => { //as parameter, we are passin an object of all of the answers given so far.
+        if(confirmAbout) {
+          return true;
+        } else {
+          return false;
+        }
+      }
     }
   ]);
 };
