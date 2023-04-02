@@ -38,7 +38,13 @@ const promptUserQuestions = () => {
   ]);
 };
 
-const promptProjectQuestions = () => {
+const promptProjectQuestions = (portfolioData) => {
+  // do not initialize the array to an empty value at every new run or it will erase all the previous project data.
+  //this array will hold all the projects info every time the user adds a new project
+  if (!portfolioData.projects) {
+    portfolioData.projects = [];
+  }
+
   console.log(`
   ==================
   Add a New Project
@@ -79,11 +85,20 @@ const promptProjectQuestions = () => {
       message: 'Would you like to enter another Project?',
       default: false
     },
-  ]);
+  ]).then(projectData => {
+    portfolioData.projects.push(projectData);
+
+    //call the project questions once again if the user selected confirmAddProject
+    if(projectData.confirmAddProject) {
+      return promptProjectQuestions(portfolioData);
+    } else {
+      return portfolioData
+    }
+  });
 };
 
 //we're calling a function that returns the result of inquire.prompt, which is a Promise
 promptUserQuestions()
-  .then(answers => console.log(answers))
-  .then(promptProjectQuestions)
+  // .then(answers => console.log(answers))
+  .then(promptProjectQuestions)  //no double brackets needed here
   .then(projectAnswers => console.log(projectAnswers));
