@@ -159,11 +159,20 @@ promptUserQuestions()
   .then(portfolioData => {
     const pageHTML = generatePage(portfolioData);
 
-    fs.writeFile('./index.html', pageHTML, err => {
-      if (err) throw new Error(err);
+    fs.writeFile('./dist/index.html', pageHTML, err => {
+      if (err) {
+        console.log(err);
+        return;
+      };
+      console.log('index.html Page created in this directory!')
 
-    console.log('index.html Page created in this directory!')
-    console.log(portfolioData)
+      fs.copyFile('./src/style.css', './dist/dist-style.css', err => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        console.log('Style sheet copied to distribution folder!');
+      })
     })
   });
 
