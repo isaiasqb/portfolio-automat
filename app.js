@@ -1,5 +1,5 @@
 const inquirer = require('inquirer');
-const fs = require('fs');
+const {writeFile, copyFile} = require('./utils/generate-site')
 const generatePage = require('./src/page-template.js')
 
 const promptUserQuestions = () => {
@@ -65,17 +65,17 @@ const promptUserQuestions = () => {
 };
 
 const promptProjectQuestions = (portfolioData) => {
-  // do not initialize the array to an empty value at every new run or it will erase all the previous project data.
-  //this array will hold all the projects info every time the user adds a new project
-  if (!portfolioData.projects) {
-    portfolioData.projects = [];
-  }
-
   console.log(`
   ==================
   Add a New Project
   ==================
   `);
+  
+  // do not initialize the array to an empty value at every new run or it will erase all the previous project data.
+  //this array will hold all the projects info every time the user adds a new project
+  if (!portfolioData.projects) {
+    portfolioData.projects = [];
+  }
 
   return inquirer.prompt([
     {
@@ -124,56 +124,25 @@ const promptProjectQuestions = (portfolioData) => {
 };
 
 
-
-const dummyData = {
-  name: 'Asdrian Quevedo',
-  profession: 'Web Developer',
-  github: 'isaiasqb',
-  confirmAbout: true,
-  about:  'Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic provident sed reiciendis libero rerum autem, laboriosam cum maiores accusantium? Voluptatibus qui doloremque laudantium assumenda nemo dignissimos aliquam, expedita laborum quisquam error modi, nostrum amet pariatur ab impedit corrupti. Cumque, quam.',
-  projects: [
-    {
-      name: 'RoboAlert',
-      description: 'Hic provident sed reiciendis libero rerum autem, laboriosam cum maiores accusantium? Voluptatibus qui doloremque laudantium assumenda nemo dignissimos aliquam, expedita laborum quisquam error modi, nostrum amet pariatur ab impedit corrupti. Cumque, quam.',
-      language: ['JS', 'HTML'],
-      link: 'https://github.com/isaiasqb',
-      feature: true,
-      confirmAddProject: true
-    },
-    {
-      name: 'To-Do Calendar',
-      description: 'Accusantium? Voluptatibus qui doloremque laudantium assumenda nemo dignissimos aliquam, expedita laborum quisquam error modi, nostrum amet pariatur ab impedit corrupti. Cumque, quam.',
-      language: ['Java', 'Bootstrap', 'GitHub'],
-      link: 'https://github.com/isaiasqb',
-      feature: false,
-      confirmAddProject: false
-    }
-  ]
-}
-
-
-
 //we're calling a function that returns the result of inquire.prompt, which is a Promise
 promptUserQuestions()
-  .then(promptProjectQuestions)  //no double brackets needed here
-  .then(portfolioData => {
-    const pageHTML = generatePage(portfolioData);
+.then(promptProjectQuestions)
+.then(portfolioData => {
+  return generatePage(portfolioData);
+})
+.then(pageHTML => {
+  return writeFile(pageHTML);
+})
+.then(writeFileResponse => {
+  console.log(writeFileResponse);
+  return copyFile()
+})
+// then(copyFileResponse => {
+//   console.log(copyFileResponse);
+// })
+.catch(err => {
+  console.log(err);
+});
 
-    fs.writeFile('./dist/index.html', pageHTML, err => {
-      if (err) {
-        console.log(err);
-        return;
-      };
-      console.log('index.html Page created in this directory!')
-
-      fs.copyFile('./src/style.css', './dist/dist-style.css', err => {
-        if (err) {
-          console.log(err);
-          return;
-        }
-        console.log('Style sheet copied to distribution folder!');
-      })
-    })
-  });
 
 
