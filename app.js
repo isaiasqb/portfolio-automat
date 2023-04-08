@@ -1,4 +1,3 @@
-const inquirer = require('inquirer');
 const {writeFile, copyFile} = require('./utils/generate-site')
 const generatePage = require('./src/page-template.js')
 const {userQuestions, projectQuestions} = require('./utils/inquirer-template')
