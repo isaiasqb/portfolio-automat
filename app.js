@@ -1,6 +1,7 @@
 const inquirer = require('inquirer');
 const {writeFile, copyFile} = require('./utils/generate-site')
 const generatePage = require('./src/page-template.js')
+const dummyData = require('./utils/dummy-data')
 
 const promptUserQuestions = () => {
   return inquirer.prompt([
@@ -137,12 +138,28 @@ promptUserQuestions()
   console.log(writeFileResponse);
   return copyFile()
 })
-// then(copyFileResponse => {
-//   console.log(copyFileResponse);
-// })
+.then(copyFileResponse => {
+  console.log(copyFileResponse);
+})
 .catch(err => {
   console.log(err);
 });
 
+
+
+
+
+//we're calling a function that returns the result of inquire.prompt, which is a Promise
+// writeFile(dummyData)
+// .then(writeFileResponse => {
+//   console.log(writeFileResponse);
+//   return copyFile()
+// })
+// // then(copyFileResponse => {
+// //   console.log(copyFileResponse);
+// // })
+// .catch(err => {
+//   console.log(err);
+// });
 
 

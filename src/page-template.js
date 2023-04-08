@@ -85,6 +85,7 @@ module.exports = templateData => {
             header.github
           }">GitHub</a>
         </nav>
+        <h2 class="page-title text-dark  py-2 px-3">${header.profession}</h2>
       </div>
     </header>
     <main class="container my-5">
